@@ -14,5 +14,3 @@ for url, output_path in zip(urls, output_paths):
     response = requests.get(url)
     with open(output_path, "wb") as f:
         f.write(response.content)
-
-
