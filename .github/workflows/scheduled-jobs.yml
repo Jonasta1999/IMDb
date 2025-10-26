@@ -1,0 +1,38 @@
+name: scheduled-jobs
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"   # every Monday 06:00 UTC (weekly)
+    - cron: "0 6 1 * *"   # every 1st of month 06:00 UTC (monthly)
+  workflow_dispatch: {}    # allow manual trigger in Actions tab
+
+jobs:
+  run-scripts:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-jobs.txt
+
+      - name: Run 0101_get_imdb_data.py
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          python 01_get_data/0101_get_imdb_data.py
+
+      - name: Run 0102_modify_imdb_data.py
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          python 01_get_data/0102_modify_imdb_data.py
