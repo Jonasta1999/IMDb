@@ -2,12 +2,14 @@ from sqlalchemy import create_engine, text
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import random
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 # python -m uvicorn api.api_app:app --reload --port 8000
 
-# Read DATABASE URL
-with open("credentials/neon.txt", "r") as f:
-    DATABASE_URL = f.read()
+# Load database URL from environment variable
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 # Create database engine
 engine = create_engine(DATABASE_URL)
