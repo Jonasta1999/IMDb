@@ -45,10 +45,6 @@ df2 = df2.rename(
     }
 )
 
-# print len of both dataframes
-print(f"Title Basics DataFrame length: {len(df)}")
-print(f"Title Ratings DataFrame length: {len(df2)}")
-
 # Inner join dataframes on 'tconst'
 df = pd.merge(df, df2, on="tconst", how="inner")
 
