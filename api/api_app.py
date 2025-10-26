@@ -95,7 +95,8 @@ def get_title(
 
         # Get limit random num between 0 and len(movies)-1
         indices = random.sample(range(len(movies)), limit)
-        movies = [movies[i] for i in indices]
+        sorted_indices = sorted(indices)
+        movies = [movies[i] for i in sorted_indices]
 
         return {"count": len(movies), "movies": movies}
 
