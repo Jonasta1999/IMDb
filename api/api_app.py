@@ -94,9 +94,12 @@ def get_title(
         movies = [dict(row) for row in result]
 
         # Get limit random num between 0 and len(movies)-1
-        indices = random.sample(range(len(movies)), limit)
-        sorted_indices = sorted(indices)
-        movies = [movies[i] for i in sorted_indices]
+        if len(movies) > limit:
+            indices = random.sample(range(len(movies)), limit)
+            indices = sorted(indices)
+        else:
+            indices = range(len(movies))
+        movies = [movies[i] for i in indices]
 
         return {"count": len(movies), "movies": movies}
 
