@@ -1,5 +1,6 @@
 import pandas as pd
 from sqlalchemy import create_engine
+from datetime import datetime
 import os
 from dotenv import load_dotenv
 load_dotenv()
@@ -49,6 +50,9 @@ df2 = df2.rename(
 
 # Inner join dataframes on 'tconst'
 df = pd.merge(df, df2, on="tconst", how="inner")
+
+# Add run_time column
+df["run_time"] = datetime.now()
 
 # Store data in the database
 df.to_sql("movies", engine, if_exists="replace", index=False)
