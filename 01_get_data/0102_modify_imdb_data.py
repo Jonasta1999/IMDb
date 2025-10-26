@@ -1,5 +1,8 @@
 import pandas as pd
 from sqlalchemy import create_engine
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 # Data file paths
 paths = (
@@ -7,9 +10,8 @@ paths = (
     "01_get_data/data/title_ratings.tsv.gz",
 )
 
-# Read DATABASE URL from credentials file
-with open("credentials/neon.txt", "r") as f:
-    DATABASE_URL = f.read()
+# Load database URL from environment variable
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 # Create database engine
 engine = create_engine(DATABASE_URL)
