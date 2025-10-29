@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import random
 from dotenv import load_dotenv
 import os
+from webscrape.webscrape import subscription_services_from_summary
 load_dotenv()
 
 # python -m uvicorn api.api_app:app --reload --port 8000
@@ -122,3 +123,9 @@ def get_genres():
     with engine.connect() as conn:
         rows = conn.execute(sql).all()
     return [r[0] for r in rows if r[0]]
+
+@app.get("/streaming")
+def get_streaming_services(title: str, country: str = "dk"):
+    country = country.lower()
+    services = subscription_services_from_summary(title, country)
+    return {"services": services}
